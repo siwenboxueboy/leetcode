@@ -11,7 +11,7 @@ public class Sort {
         // bubbleSort(ints);
         // selectSort(ints);
         // heapSort(ints);
-        getTopK(ints);
+        mergeSort(ints);
         Console.log(ints);
     }
 
@@ -275,4 +275,48 @@ public class Sort {
         // heap[0] 不算
         Console.log(heap);
     }
+
+    private static void mergeSort(int[] array) {
+        // 合并排序时的辅助数组，只声明一次
+        int[] supportArray = new int[array.length];
+        mergeSort(array, supportArray, 0, array.length - 1);
+    }
+
+    private static void mergeSort(int[] array, int[] supportArray, int low, int high) {
+        if (low < high) {
+            int mid = (low + high) / 2;
+            // 递归完成了之后进行合并
+            mergeSort(array, supportArray, low, mid);
+            mergeSort(array, supportArray, mid + 1, high);
+            merge(array, supportArray, low, mid, high);
+        }
+    }
+
+    private static void merge(int[] array, int[] supportArray, int low, int mid, int high) {
+        // k为指向已经排序元素的下一个 所以k应该操作array
+        int k = low;
+        for (int i = low; i <= high; i++) {
+            supportArray[i] = array[i];
+        }
+        int i = low, j = mid + 1;
+        for (; i <= mid && j <= high; k++) {
+            if (supportArray[i] <= supportArray[j]) {
+                // 说明i要更小 或者相等 那么为了保证稳定性 此时需要取i所指的位置
+                array[k] = supportArray[i++];
+            } else {
+                // 否则，就时j指向的元素更小
+                array[k] = supportArray[j++];
+            }
+        }
+        // 此时 i 或者 j 可能存在有一个还没有移动到最终的位置
+        while (i <= mid) {
+            array[k] = supportArray[i++];
+            k++;
+        }
+        while (j <= high) {
+            array[k] = supportArray[j++];
+            k++;
+        }
+    }
+
 }
