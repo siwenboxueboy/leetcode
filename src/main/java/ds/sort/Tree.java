@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 public class Tree {
     public static void main(String[] args) {
+        String s = null;
         LinkedList<String> queue = new LinkedList<>();
 /*        String first = queue.getFirst();// 队头
         String last = queue.getLast();// 队尾
