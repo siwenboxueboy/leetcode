@@ -45,7 +45,7 @@
 //
 // Related Topics 数学 👍 2458 👎 0
 
-  
+
 package leetcode.editor.cn;
 
 import com.quickcode.debug.Recursion;
@@ -53,31 +53,44 @@ import com.quickcode.predicate.Assert;
 
 /**
  * 回文数
+ *
  * @author wangsibo
  * @date 2023-03-19 22:16:10
- * */
-public class PalindromeNumber_9{
-    
-    private static Solution getSolution(){
+ */
+public class PalindromeNumber_9 {
+
+    private static Solution getSolution() {
         return new PalindromeNumber_9().new Solution();
     }
 
     private static Recursion getRecursion() {
         return Recursion.getInstance();
     }
-    
+
     public static void main(String[] args) {
         Solution solution = getSolution();
-        
+
+        System.out.println("solution.isPalindrome(121) = " + solution.isPalindrome(121));
+        System.out.println("solution.isPalindrome(-121) = " + solution.isPalindrome(-121));
         Assert.checkEqual();
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public boolean isPalindrome(int x) {
-
+    class Solution {
+        public boolean isPalindrome(int x) {
+            if (x < 0) {
+                return false;
+            }
+            String intStr = Integer.toString(x);
+            char[] chars = intStr.toCharArray();
+            for (int i = 0, j = chars.length - 1; i < j; i++, j--) {
+                if (chars[i] != chars[j]){
+                    return false;
+                }
+            }
+            return true;
+        }
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 
