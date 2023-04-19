@@ -78,7 +78,8 @@ public class IsGraphBipartite_785 {
         return Recursion.getInstance();
     }
 
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws NoSuchFieldException {
         Solution solution = getSolution();
         System.out.println(solution.isBipartite(Builder.buildDimensionalIntsArray("[[1,2,3],[0,2],[0,1,3],[0,2]]")));
         System.out.println(solution.isBipartite(Builder.buildDimensionalIntsArray("[[1,3],[0,2],[1,3],[0,2]]")));
@@ -93,45 +94,37 @@ public class IsGraphBipartite_785 {
         private Boolean[] parts;
         private Queue<Integer> queue;
 
-        private Queue<Boolean> queueParts;
+        private boolean res;
 
         public boolean isBipartite(int[][] graph) {
             if (graph == null || graph.length == 0) {
                 return true;
             }
+            this.res = true;
             // init visited
             parts = new Boolean[graph.length];
             queue = new LinkedList<>();
-            queueParts = new LinkedList<>();
             for (int i = 0; i < graph.length; i++) {
                 if (parts[i] == null) {
                     bfs(graph, i);
                 }
             }
-
-            for (int i = 0; i < graph.length; i++) {
-                for (int j = 0; j < graph[i].length; j++) {
-                    if (parts[i].equals(parts[graph[i][j]])) {
-                        return false;
-                    }
-                }
-            }
-            return true;
+            return res;
         }
 
         private void bfs(int[][] graph, int i) {
             boolean p = false;
             queue.offer(i);
-            queueParts.offer(p);
             parts[i] = p;
             while (!queue.isEmpty()) {
                 Integer poll = queue.poll();
-                Boolean parts = queueParts.poll();
                 for (int k = 0; k < graph[poll].length; k++) {
                     if (this.parts[graph[poll][k]] == null) {
                         queue.offer(graph[poll][k]);
-                        this.parts[graph[poll][k]] = !parts;
-                        queueParts.offer(!parts);
+                        this.parts[graph[poll][k]] = !parts[poll];
+                    } else if (this.parts[graph[poll][k]] == parts[poll]) {
+                        res = false;
+                        return;
                     }
                 }
             }
